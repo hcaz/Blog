@@ -1,4 +1,4 @@
 <?php
 	require("config.php");
-	print_r($GLOBAL);
+	$painerror = json_encode($GLOBAL); require('themes/default/plainerror.php');
 ?>
