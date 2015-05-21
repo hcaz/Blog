@@ -8,7 +8,7 @@
 	$twig->getExtension('core')->setTimezone('Europe/London');
 	if($sub==null && $slug==null){
 		$template = $twig->loadTemplate('home.htm');
-		$result = $conn->query("SELECT * FROM `POSTS` WHERE `STATE` = '1';");
+		$result = $conn->query("SELECT * FROM `POSTS` WHERE `STATE` = '1' ORDER BY `ID` DESC;");
 		while($row = $result->fetch_assoc()) {
 			$row['TAGS'] = array("ONE","TWO","THREE");
 			$POSTS[] = $row;
