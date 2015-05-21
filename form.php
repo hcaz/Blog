@@ -27,6 +27,8 @@
 				header("Location: /?messageS=Posted!");
 			}
 		}
+	}elseif($_POST['source']=="search"){
+		header("Location: /search/".$_POST['search']);
 	}else{
 		header("Location: /?messageE=Not found.");
 	}
