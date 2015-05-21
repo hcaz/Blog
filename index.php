@@ -8,18 +8,19 @@
 	$twig->getExtension('core')->setTimezone('Europe/London');
 	if($sub==null && $slug==null){
 		$template = $twig->loadTemplate('home.htm');
+		$result = $conn->query("SELECT * FROM `POSTS` WHERE `STATE` = '1';");
+		while($row = $result->fetch_assoc()) {
+			$row['TAGS'] = array("ONE","TWO","THREE");
+			$POSTS[] = $row;
+		}
+		$USER['DETAILS']['PERMS'] = json_decode($USER['DETAILS']['PERMS'],true);
 		echo $template->render(
 			array(
 				'global' => $GLOBAL,
 				'user' => $USER,
+				'posts' => $POSTS,
 				'sub' => $sub,
-				'slug' => $slug,
-				'get' => array(
-					'1'=>$_GET['gethandle1'],
-					'2'=>$_GET['gethandle2'],
-					'3'=>$_GET['gethandle3'],
-					'4'=>$_GET['gethandle4']
-				)
+				'slug' => $slug
 			)
 		);
 	}elseif($slug=="form"){

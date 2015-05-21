@@ -16,7 +16,7 @@
 	//Dev message
 	if ($GLOBAL['LIVE']!="true"){$painerror = $GLOBAL['LIVE']; require('themes/default/plainerror.php');die;}
 	//User
-	$USER['LIN'] = "true";
+	$USER['LIN'] = true;
 	$USER['ID'] = 1;
 	$result = $conn->query("SELECT * FROM `USERS` INNER JOIN `USER_DETAILS` on `USERS`.`ID` = `USER_DETAILS`.`ID` INNER JOIN `USER_TYPES` on `USERS`.`TYPE` = `USER_TYPES`.`ID` WHERE `USERS`.`ID` = '".$USER['ID']."';");
 	while($row = $result->fetch_assoc()) {
