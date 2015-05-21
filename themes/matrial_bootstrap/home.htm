@@ -1,3 +1,19 @@
 {% include 'head.htm' %}
-HOME
+{% if user.LIN == "true" %}
+<form method="POST" action="/s/form">
+	<input type="text" name="title" id="title" placeholder="Title" required/><br />
+	<select name="type" id="type">
+		<option value="t">Text</option>
+		<option value="p">Picture</option>
+		<option value="v">Video</option>
+	</select><br />
+	<textarea name="content" id="content" placeholder="Content"required></textarea><br />
+	<select name="category" id="category">
+		<option value="0">None</option>
+	</select><br />
+	<input type="checkbox" name="pinned" id="pinned" value="1"> Pin this post to the top?<br />
+	<input type="text" name="tags" id="tags" placeholder="Tags (Comma seperated)"/><br />
+	<input type="submit" name="source" value="Post"/>
+</form>
+{% endif %}
 {% include 'footer.htm' %}

@@ -2,7 +2,7 @@
 	require("config.php");
 	require_once getcwd().'/Twig/Autoloader.php';
 	Twig_Autoloader::register();
-	$loader = new Twig_Loader_Filesystem(getcwd().'/themes/'.$GLOBAL['theme']);
+	$loader = new Twig_Loader_Filesystem(getcwd().'/themes/'.$GLOBAL['THEME']);
 	$twig = new Twig_Environment($loader, array('debug' => true));
 	$twig->addExtension(new Twig_Extension_Debug());
 	$twig->getExtension('core')->setTimezone('Europe/London');
@@ -11,6 +11,7 @@
 		echo $template->render(
 			array(
 				'global' => $GLOBAL,
+				'user' => $USER,
 				'sub' => $sub,
 				'slug' => $slug,
 				'get' => array(
@@ -21,11 +22,14 @@
 				)
 			)
 		);
+	}elseif($slug=="form"){
+		require("form.php");
 	}else{
 		$template = $twig->loadTemplate('error.htm');
 		echo $template->render(
 			array(
 				'global' => $GLOBAL,
+				'user' => $USER,
 				'sub' => $sub,
 				'slug' => $slug,
 				'message' => "Page not found"
