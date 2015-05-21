@@ -1,0 +1,14 @@
+Options -Multiviews
+Options -Indexes
+Options +ExecCGI
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/javascript
+RewriteEngine On
+RewriteRule \.(css|js|jpg|png|gif)$ - [L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule (.*) - [L]
+RewriteRule ^([^/]*)/([^/]*)$ index.php?sub=$1&slug=$2 [L,QSA]
+RewriteRule ^([^/]*)$ index.php?slug=$1 [L,QSA]
