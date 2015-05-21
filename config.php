@@ -13,7 +13,7 @@
 	while($row = $result->fetch_assoc()) {
 		$GLOBAL[$row['KEY']] = $row['VALUE'];
 	}
-	if ($GLOBAL['live']!="true"){die("Site not live.");}
+	if ($GLOBAL['live']!="true"){$painerror = $GLOBAL['live']; require('themes/default/plainerror.php');die;}
 
 	if ($_GET['sub']!=""){$sub = $_GET['sub'];}else{$sub = null;}
 	if ($_GET['slug']!=""){$slug = $_GET['slug'];}else{$slug = null;}

@@ -1,4 +1,4 @@
 <?php
-	include("config.php");
+	require("config.php");
 	print_r($GLOBAL);
 ?>
