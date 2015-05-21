@@ -3,32 +3,46 @@
 /*
  * This file is part of Twig.
  *
- * (c) 2015 Fabien Potencier
+ * (c) 2009 Fabien Potencier
+ * (c) 2009 Armin Ronacher
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 /**
+ * Represents a module node.
+ *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class Twig_Node_CheckSecurity extends Twig_Node
+class Twig_Node_SandboxedModule extends Twig_Node_Module
 {
     protected $usedFilters;
     protected $usedTags;
     protected $usedFunctions;
 
-    public function __construct(array $usedFilters, array $usedTags, array $usedFunctions)
+    public function __construct(Twig_Node_Module $node, array $usedFilters, array $usedTags, array $usedFunctions)
     {
+        parent::__construct($node->getNode('body'), $node->getNode('parent'), $node->getNode('blocks'), $node->getNode('macros'), $node->getNode('traits'), $node->getAttribute('embedded_templates'), $node->getAttribute('filename'));
+
+        $this->setAttribute('index', $node->getAttribute('index'));
+
         $this->usedFilters = $usedFilters;
         $this->usedTags = $usedTags;
         $this->usedFunctions = $usedFunctions;
-
-        parent::__construct();
     }
 
-    public function compile(Twig_Compiler $compiler)
+    protected function compileDisplayBody(Twig_Compiler $compiler)
     {
+        $compiler->write("\$this->checkSecurity();\n");
+
+        parent::compileDisplayBody($compiler);
+    }
+
+    protected function compileDisplayFooter(Twig_Compiler $compiler)
+    {
+        parent::compileDisplayFooter($compiler);
+
         $tags = $filters = $functions = array();
         foreach (array('tags', 'filters', 'functions') as $type) {
             foreach ($this->{'used'.ucfirst($type)} as $name => $node) {
@@ -41,6 +55,8 @@ class Twig_Node_CheckSecurity extends Twig_Node
         }
 
         $compiler
+            ->write("protected function checkSecurity()\n", "{\n")
+            ->indent()
             ->write("\$tags = ")->repr(array_filter($tags))->raw(";\n")
             ->write("\$filters = ")->repr(array_filter($filters))->raw(";\n")
             ->write("\$functions = ")->repr(array_filter($functions))->raw(";\n\n")
@@ -71,6 +87,8 @@ class Twig_Node_CheckSecurity extends Twig_Node
             ->outdent()
             ->write("}\n\n")
             ->write("throw \$e;\n")
+            ->outdent()
+            ->write("}\n")
             ->outdent()
             ->write("}\n\n")
         ;
