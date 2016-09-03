@@ -43,8 +43,8 @@ class Twig_Node_SandboxedModule extends Twig_Node_Module
     {
         parent::compileDisplayFooter($compiler);
 
-        $tags = $filters = $functions = array();
-        foreach (array('tags', 'filters', 'functions') as $type) {
+        $tags = $filters = $functions = [];
+        foreach (['tags', 'filters', 'functions'] as $type) {
             foreach ($this->{'used'.ucfirst($type)} as $name => $node) {
                 if ($node instanceof Twig_Node) {
                     ${$type}[$name] = $node->getLine();
@@ -57,9 +57,9 @@ class Twig_Node_SandboxedModule extends Twig_Node_Module
         $compiler
             ->write("protected function checkSecurity()\n", "{\n")
             ->indent()
-            ->write("\$tags = ")->repr(array_filter($tags))->raw(";\n")
-            ->write("\$filters = ")->repr(array_filter($filters))->raw(";\n")
-            ->write("\$functions = ")->repr(array_filter($functions))->raw(";\n\n")
+            ->write('$tags = ')->repr(array_filter($tags))->raw(";\n")
+            ->write('$filters = ')->repr(array_filter($filters))->raw(";\n")
+            ->write('$functions = ')->repr(array_filter($functions))->raw(";\n\n")
             ->write("try {\n")
             ->indent()
             ->write("\$this->env->getExtension('sandbox')->checkSecurity(\n")
@@ -90,7 +90,6 @@ class Twig_Node_SandboxedModule extends Twig_Node_Module
             ->outdent()
             ->write("}\n")
             ->outdent()
-            ->write("}\n\n")
-        ;
+            ->write("}\n\n");
     }
 }

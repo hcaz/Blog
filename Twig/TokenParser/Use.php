@@ -41,7 +41,7 @@ class Twig_TokenParser_Use extends Twig_TokenParser
             throw new Twig_Error_Syntax('The template references in a "use" statement must be a string.', $stream->getCurrent()->getLine(), $stream->getFilename());
         }
 
-        $targets = array();
+        $targets = [];
         if ($stream->nextIf('with')) {
             do {
                 $name = $stream->expect(Twig_Token::NAME_TYPE)->getValue();
@@ -61,7 +61,7 @@ class Twig_TokenParser_Use extends Twig_TokenParser
 
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
 
-        $this->parser->addTrait(new Twig_Node(array('template' => $template, 'targets' => new Twig_Node($targets))));
+        $this->parser->addTrait(new Twig_Node(['template' => $template, 'targets' => new Twig_Node($targets)]));
     }
 
     /**

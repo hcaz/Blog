@@ -2,8 +2,8 @@
 
 class Twig_NodeVisitor_SafeAnalysis implements Twig_NodeVisitorInterface
 {
-    protected $data = array();
-    protected $safeVars = array();
+    protected $data = [];
+    protected $safeVars = [];
 
     public function setSafeVars($safeVars)
     {
@@ -42,10 +42,10 @@ class Twig_NodeVisitor_SafeAnalysis implements Twig_NodeVisitorInterface
                 }
             }
         }
-        $this->data[$hash][] = array(
-            'key' => $node,
+        $this->data[$hash][] = [
+            'key'   => $node,
             'value' => $safe,
-        );
+        ];
     }
 
     public function enterNode(Twig_NodeInterface $node, Twig_Environment $env)
@@ -57,13 +57,13 @@ class Twig_NodeVisitor_SafeAnalysis implements Twig_NodeVisitorInterface
     {
         if ($node instanceof Twig_Node_Expression_Constant) {
             // constants are marked safe for all
-            $this->setSafe($node, array('all'));
+            $this->setSafe($node, ['all']);
         } elseif ($node instanceof Twig_Node_Expression_BlockReference) {
             // blocks are safe by definition
-            $this->setSafe($node, array('all'));
+            $this->setSafe($node, ['all']);
         } elseif ($node instanceof Twig_Node_Expression_Parent) {
             // parent block is safe by definition
-            $this->setSafe($node, array('all'));
+            $this->setSafe($node, ['all']);
         } elseif ($node instanceof Twig_Node_Expression_Conditional) {
             // intersect safeness of both operands
             $safe = $this->intersectSafe($this->getSafe($node->getNode('expr2')), $this->getSafe($node->getNode('expr3')));
@@ -79,7 +79,7 @@ class Twig_NodeVisitor_SafeAnalysis implements Twig_NodeVisitorInterface
                 }
                 $this->setSafe($node, $safe);
             } else {
-                $this->setSafe($node, array());
+                $this->setSafe($node, []);
             }
         } elseif ($node instanceof Twig_Node_Expression_Function) {
             // function expression is safe when the function is safe
@@ -89,24 +89,24 @@ class Twig_NodeVisitor_SafeAnalysis implements Twig_NodeVisitorInterface
             if (false !== $function) {
                 $this->setSafe($node, $function->getSafe($args));
             } else {
-                $this->setSafe($node, array());
+                $this->setSafe($node, []);
             }
         } elseif ($node instanceof Twig_Node_Expression_MethodCall) {
             if ($node->getAttribute('safe')) {
-                $this->setSafe($node, array('all'));
+                $this->setSafe($node, ['all']);
             } else {
-                $this->setSafe($node, array());
+                $this->setSafe($node, []);
             }
         } elseif ($node instanceof Twig_Node_Expression_GetAttr && $node->getNode('node') instanceof Twig_Node_Expression_Name) {
             $name = $node->getNode('node')->getAttribute('name');
             // attributes on template instances are safe
             if ('_self' == $name || in_array($name, $this->safeVars)) {
-                $this->setSafe($node, array('all'));
+                $this->setSafe($node, ['all']);
             } else {
-                $this->setSafe($node, array());
+                $this->setSafe($node, []);
             }
         } else {
-            $this->setSafe($node, array());
+            $this->setSafe($node, []);
         }
 
         return $node;
@@ -115,7 +115,7 @@ class Twig_NodeVisitor_SafeAnalysis implements Twig_NodeVisitorInterface
     protected function intersectSafe(array $a = null, array $b = null)
     {
         if (null === $a || null === $b) {
-            return array();
+            return [];
         }
 
         if (in_array('all', $a)) {

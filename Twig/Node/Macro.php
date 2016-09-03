@@ -18,7 +18,7 @@ class Twig_Node_Macro extends Twig_Node
 {
     public function __construct($name, Twig_NodeInterface $body, Twig_NodeInterface $arguments, $lineno, $tag = null)
     {
-        parent::__construct(array('body' => $body, 'arguments' => $arguments), array('name' => $name), $lineno, $tag);
+        parent::__construct(['body' => $body, 'arguments' => $arguments], ['name' => $name], $lineno, $tag);
     }
 
     /**
@@ -30,16 +30,14 @@ class Twig_Node_Macro extends Twig_Node
     {
         $compiler
             ->addDebugInfo($this)
-            ->write(sprintf("public function get%s(", $this->getAttribute('name')))
-        ;
+            ->write(sprintf('public function get%s(', $this->getAttribute('name')));
 
         $count = count($this->getNode('arguments'));
         $pos = 0;
         foreach ($this->getNode('arguments') as $name => $default) {
             $compiler
                 ->raw('$__'.$name.'__ = ')
-                ->subcompile($default)
-            ;
+                ->subcompile($default);
 
             if (++$pos < $count) {
                 $compiler->raw(', ');
@@ -49,30 +47,26 @@ class Twig_Node_Macro extends Twig_Node
         $compiler
             ->raw(")\n")
             ->write("{\n")
-            ->indent()
-        ;
+            ->indent();
 
         if (!count($this->getNode('arguments'))) {
             $compiler->write("\$context = \$this->env->getGlobals();\n\n");
         } else {
             $compiler
                 ->write("\$context = \$this->env->mergeGlobals(array(\n")
-                ->indent()
-            ;
+                ->indent();
 
             foreach ($this->getNode('arguments') as $name => $default) {
                 $compiler
                     ->write('')
                     ->string($name)
                     ->raw(' => $__'.$name.'__')
-                    ->raw(",\n")
-                ;
+                    ->raw(",\n");
             }
 
             $compiler
                 ->outdent()
-                ->write("));\n\n")
-            ;
+                ->write("));\n\n");
         }
 
         $compiler
@@ -90,7 +84,6 @@ class Twig_Node_Macro extends Twig_Node
             ->write("}\n\n")
             ->write("return ('' === \$tmp = ob_get_clean()) ? '' : new Twig_Markup(\$tmp, \$this->env->getCharset());\n")
             ->outdent()
-            ->write("}\n\n")
-        ;
+            ->write("}\n\n");
     }
 }

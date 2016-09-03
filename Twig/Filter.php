@@ -15,22 +15,23 @@
  * Use Twig_SimpleFilter instead.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
  * @deprecated since 1.12 (to be removed in 2.0)
  */
 abstract class Twig_Filter implements Twig_FilterInterface, Twig_FilterCallableInterface
 {
     protected $options;
-    protected $arguments = array();
+    protected $arguments = [];
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
-        $this->options = array_merge(array(
+        $this->options = array_merge([
             'needs_environment' => false,
             'needs_context'     => false,
             'pre_escape'        => null,
             'preserves_safety'  => null,
             'callable'          => null,
-        ), $options);
+        ], $options);
     }
 
     public function setArguments($arguments)

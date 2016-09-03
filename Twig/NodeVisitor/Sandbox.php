@@ -33,9 +33,9 @@ class Twig_NodeVisitor_Sandbox implements Twig_NodeVisitorInterface
     {
         if ($node instanceof Twig_Node_Module) {
             $this->inAModule = true;
-            $this->tags = array();
-            $this->filters = array();
-            $this->functions = array();
+            $this->tags = [];
+            $this->filters = [];
+            $this->functions = [];
 
             return $node;
         } elseif ($this->inAModule) {

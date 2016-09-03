@@ -19,7 +19,7 @@ class Twig_Node_Text extends Twig_Node implements Twig_NodeOutputInterface
 {
     public function __construct($data, $lineno)
     {
-        parent::__construct(array(), array('data' => $data), $lineno);
+        parent::__construct([], ['data' => $data], $lineno);
     }
 
     /**
@@ -33,7 +33,6 @@ class Twig_Node_Text extends Twig_Node implements Twig_NodeOutputInterface
             ->addDebugInfo($this)
             ->write('echo ')
             ->string($this->getAttribute('data'))
-            ->raw(";\n")
-        ;
+            ->raw(";\n");
     }
 }

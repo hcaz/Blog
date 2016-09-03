@@ -18,7 +18,7 @@ class Twig_Node_Flush extends Twig_Node
 {
     public function __construct($lineno, $tag)
     {
-        parent::__construct(array(), array(), $lineno, $tag);
+        parent::__construct([], [], $lineno, $tag);
     }
 
     /**
@@ -30,7 +30,6 @@ class Twig_Node_Flush extends Twig_Node
     {
         $compiler
             ->addDebugInfo($this)
-            ->write("flush();\n")
-        ;
+            ->write("flush();\n");
     }
 }

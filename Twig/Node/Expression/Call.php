@@ -90,7 +90,7 @@ abstract class Twig_Node_Expression_Call extends Twig_Node_Expression
 
     protected function getArguments($callable, $arguments)
     {
-        $parameters = array();
+        $parameters = [];
         $named = false;
         foreach ($arguments as $name => $node) {
             if (!is_int($name)) {
@@ -137,7 +137,7 @@ abstract class Twig_Node_Expression_Call extends Twig_Node_Expression
             }
         }
 
-        $arguments = array();
+        $arguments = [];
         $pos = 0;
         foreach ($definition as $param) {
             $name = $this->normalizeName($param->name);
@@ -171,6 +171,6 @@ abstract class Twig_Node_Expression_Call extends Twig_Node_Expression
 
     protected function normalizeName($name)
     {
-        return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'), array('\\1_\\2', '\\1_\\2'), $name));
+        return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], ['\\1_\\2', '\\1_\\2'], $name));
     }
 }

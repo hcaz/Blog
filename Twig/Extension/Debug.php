@@ -24,12 +24,11 @@ class Twig_Extension_Debug extends Twig_Extension
             // false means that it was not set (and the default is on) or it explicitly enabled
             // xdebug.overload_var_dump produces HTML only when html_errors is also enabled
             && (false === ini_get('html_errors') || ini_get('html_errors'))
-            || 'cli' === php_sapi_name()
-        ;
+            || 'cli' === php_sapi_name();
 
-        return array(
-            new Twig_SimpleFunction('dump', 'twig_var_dump', array('is_safe' => $isDumpOutputHtmlSafe ? array('html') : array(), 'needs_context' => true, 'needs_environment' => true)),
-        );
+        return [
+            new Twig_SimpleFunction('dump', 'twig_var_dump', ['is_safe' => $isDumpOutputHtmlSafe ? ['html'] : [], 'needs_context' => true, 'needs_environment' => true]),
+        ];
     }
 
     /**
@@ -53,7 +52,7 @@ function twig_var_dump(Twig_Environment $env, $context)
 
     $count = func_num_args();
     if (2 === $count) {
-        $vars = array();
+        $vars = [];
         foreach ($context as $key => $value) {
             if (!$value instanceof Twig_Template) {
                 $vars[$key] = $value;

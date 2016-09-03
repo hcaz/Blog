@@ -81,13 +81,13 @@ class Twig_Environment
      * @param Twig_LoaderInterface $loader  A Twig_LoaderInterface instance
      * @param array                $options An array of options
      */
-    public function __construct(Twig_LoaderInterface $loader = null, $options = array())
+    public function __construct(Twig_LoaderInterface $loader = null, $options = [])
     {
         if (null !== $loader) {
             $this->setLoader($loader);
         }
 
-        $options = array_merge(array(
+        $options = array_merge([
             'debug'               => false,
             'charset'             => 'UTF-8',
             'base_template_class' => 'Twig_Template',
@@ -96,17 +96,17 @@ class Twig_Environment
             'cache'               => false,
             'auto_reload'         => null,
             'optimizations'       => -1,
-        ), $options);
+        ], $options);
 
-        $this->debug              = (bool) $options['debug'];
-        $this->charset            = strtoupper($options['charset']);
-        $this->baseTemplateClass  = $options['base_template_class'];
-        $this->autoReload         = null === $options['auto_reload'] ? $this->debug : (bool) $options['auto_reload'];
-        $this->strictVariables    = (bool) $options['strict_variables'];
+        $this->debug = (bool) $options['debug'];
+        $this->charset = strtoupper($options['charset']);
+        $this->baseTemplateClass = $options['base_template_class'];
+        $this->autoReload = null === $options['auto_reload'] ? $this->debug : (bool) $options['auto_reload'];
+        $this->strictVariables = (bool) $options['strict_variables'];
         $this->runtimeInitialized = false;
         $this->setCache($options['cache']);
-        $this->functionCallbacks = array();
-        $this->filterCallbacks = array();
+        $this->functionCallbacks = [];
+        $this->filterCallbacks = [];
 
         $this->addExtension(new Twig_Extension_Core());
         $this->addExtension(new Twig_Extension_Escaper($options['autoescape']));
@@ -154,7 +154,7 @@ class Twig_Environment
     /**
      * Checks if debug mode is enabled.
      *
-     * @return bool    true if debug mode is enabled, false otherwise
+     * @return bool true if debug mode is enabled, false otherwise
      */
     public function isDebug()
     {
@@ -180,7 +180,7 @@ class Twig_Environment
     /**
      * Checks if the auto_reload option is enabled.
      *
-     * @return bool    true if auto_reload is enabled, false otherwise
+     * @return bool true if auto_reload is enabled, false otherwise
      */
     public function isAutoReload()
     {
@@ -206,7 +206,7 @@ class Twig_Environment
     /**
      * Checks if the strict_variables option is enabled.
      *
-     * @return bool    true if strict_variables is enabled, false otherwise
+     * @return bool true if strict_variables is enabled, false otherwise
      */
     public function isStrictVariables()
     {
@@ -223,12 +223,12 @@ class Twig_Environment
         return $this->cache;
     }
 
-     /**
-      * Sets the cache directory or false if cache is disabled.
-      *
-      * @param string|false $cache The absolute path to the compiled templates,
-      *                            or false to disable cache
-      */
+    /**
+     * Sets the cache directory or false if cache is disabled.
+     *
+     * @param string|false $cache The absolute path to the compiled templates,
+     *                            or false to disable cache
+     */
     public function setCache($cache)
     {
         $this->cache = $cache ? $cache : false;
@@ -255,8 +255,8 @@ class Twig_Environment
     /**
      * Gets the template class associated with the given string.
      *
-     * @param string  $name  The name for which to calculate the template class name
-     * @param int     $index The index if it is an embedded template
+     * @param string $name  The name for which to calculate the template class name
+     * @param int    $index The index if it is an embedded template
      *
      * @return string The template class name
      */
@@ -281,13 +281,13 @@ class Twig_Environment
      * @param string $name    The template name
      * @param array  $context An array of parameters to pass to the template
      *
-     * @return string The rendered template
-     *
      * @throws Twig_Error_Loader  When the template cannot be found
      * @throws Twig_Error_Syntax  When an error occurred during compilation
      * @throws Twig_Error_Runtime When an error occurred during rendering
+     *
+     * @return string The rendered template
      */
-    public function render($name, array $context = array())
+    public function render($name, array $context = [])
     {
         return $this->loadTemplate($name)->render($context);
     }
@@ -302,7 +302,7 @@ class Twig_Environment
      * @throws Twig_Error_Syntax  When an error occurred during compilation
      * @throws Twig_Error_Runtime When an error occurred during rendering
      */
-    public function display($name, array $context = array())
+    public function display($name, array $context = [])
     {
         $this->loadTemplate($name)->display($context);
     }
@@ -310,13 +310,13 @@ class Twig_Environment
     /**
      * Loads a template by name.
      *
-     * @param string  $name  The template name
-     * @param int     $index The index if it is an embedded template
-     *
-     * @return Twig_TemplateInterface A template instance representing the given template name
+     * @param string $name  The template name
+     * @param int    $index The index if it is an embedded template
      *
      * @throws Twig_Error_Loader When the template cannot be found
      * @throws Twig_Error_Syntax When an error occurred during compilation
+     *
+     * @return Twig_TemplateInterface A template instance representing the given template name
      */
     public function loadTemplate($name, $index = null)
     {
@@ -355,7 +355,7 @@ class Twig_Environment
      * @param string    $name The template name
      * @param timestamp $time The last modification time of the cached template
      *
-     * @return bool    true if the template is fresh, false otherwise
+     * @return bool true if the template is fresh, false otherwise
      */
     public function isTemplateFresh($name, $time)
     {
@@ -377,15 +377,15 @@ class Twig_Environment
      *
      * @param string|Twig_Template|array $names A template or an array of templates to try consecutively
      *
-     * @return Twig_Template
-     *
      * @throws Twig_Error_Loader When none of the templates can be found
      * @throws Twig_Error_Syntax When an error occurred during compilation
+     *
+     * @return Twig_Template
      */
     public function resolveTemplate($names)
     {
         if (!is_array($names)) {
-            $names = array($names);
+            $names = [$names];
         }
 
         foreach ($names as $name) {
@@ -411,7 +411,7 @@ class Twig_Environment
      */
     public function clearTemplateCache()
     {
-        $this->loadedTemplates = array();
+        $this->loadedTemplates = [];
     }
 
     /**
@@ -460,9 +460,9 @@ class Twig_Environment
      * @param string $source The template source code
      * @param string $name   The template name
      *
-     * @return Twig_TokenStream A Twig_TokenStream instance
-     *
      * @throws Twig_Error_Syntax When the code is syntactically wrong
+     *
+     * @return Twig_TokenStream A Twig_TokenStream instance
      */
     public function tokenize($source, $name = null)
     {
@@ -498,9 +498,9 @@ class Twig_Environment
      *
      * @param Twig_TokenStream $stream A token stream instance
      *
-     * @return Twig_Node_Module A node tree
-     *
      * @throws Twig_Error_Syntax When the token stream is syntactically or semantically wrong
+     *
+     * @return Twig_Node_Module A node tree
      */
     public function parse(Twig_TokenStream $stream)
     {
@@ -549,9 +549,9 @@ class Twig_Environment
      * @param string $source The template source code
      * @param string $name   The template name
      *
-     * @return string The compiled PHP source code
-     *
      * @throws Twig_Error_Syntax When there was an error during tokenizing, parsing or compiling
+     *
+     * @return string The compiled PHP source code
      */
     public function compileSource($source, $name = null)
     {
@@ -626,7 +626,7 @@ class Twig_Environment
      *
      * @param string $name The extension name
      *
-     * @return bool    Whether the extension is registered or not
+     * @return bool Whether the extension is registered or not
      */
     public function hasExtension($name)
     {
@@ -740,7 +740,7 @@ class Twig_Environment
      */
     public function getTags()
     {
-        $tags = array();
+        $tags = [];
         foreach ($this->getTokenParsers()->getParsers() as $parser) {
             if ($parser instanceof Twig_TokenParserInterface) {
                 $tags[$parser->getTag()] = $parser;
@@ -1113,7 +1113,7 @@ class Twig_Environment
 
     public function computeAlternatives($name, $items)
     {
-        $alternatives = array();
+        $alternatives = [];
         foreach ($items as $item) {
             $lev = levenshtein($name, $item);
             if ($lev <= strlen($name) / 3 || false !== strpos($item, $name)) {
@@ -1127,7 +1127,7 @@ class Twig_Environment
 
     protected function initGlobals()
     {
-        $globals = array();
+        $globals = [];
         foreach ($this->extensions as $extension) {
             $extGlob = $extension->getGlobals();
             if (!is_array($extGlob)) {
@@ -1150,12 +1150,12 @@ class Twig_Environment
 
         $this->extensionInitialized = true;
         $this->parsers = new Twig_TokenParserBroker();
-        $this->filters = array();
-        $this->functions = array();
-        $this->tests = array();
-        $this->visitors = array();
-        $this->unaryOperators = array();
-        $this->binaryOperators = array();
+        $this->filters = [];
+        $this->functions = [];
+        $this->tests = [];
+        $this->visitors = [];
+        $this->unaryOperators = [];
+        $this->binaryOperators = [];
 
         foreach ($this->extensions as $extension) {
             $this->initExtension($extension);
@@ -1233,10 +1233,10 @@ class Twig_Environment
         $dir = dirname($file);
         if (!is_dir($dir)) {
             if (false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
-                throw new RuntimeException(sprintf("Unable to create the cache directory (%s).", $dir));
+                throw new RuntimeException(sprintf('Unable to create the cache directory (%s).', $dir));
             }
         } elseif (!is_writable($dir)) {
-            throw new RuntimeException(sprintf("Unable to write in the cache directory (%s).", $dir));
+            throw new RuntimeException(sprintf('Unable to write in the cache directory (%s).', $dir));
         }
 
         $tmpFile = tempnam($dir, basename($file));

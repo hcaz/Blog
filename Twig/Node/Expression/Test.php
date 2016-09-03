@@ -12,7 +12,7 @@ class Twig_Node_Expression_Test extends Twig_Node_Expression_Call
 {
     public function __construct(Twig_NodeInterface $node, $name, Twig_NodeInterface $arguments = null, $lineno)
     {
-        parent::__construct(array('node' => $node, 'arguments' => $arguments), array('name' => $name), $lineno);
+        parent::__construct(['node' => $node, 'arguments' => $arguments], ['name' => $name], $lineno);
     }
 
     public function compile(Twig_Compiler $compiler)
