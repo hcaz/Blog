@@ -104,5 +104,5 @@
 			</style>
 </head>
 <body id="error-page">
-	<p><?php echo $painerror;?></p></body>
+	<p><?php echo $painerror; ?></p></body>
 </html>

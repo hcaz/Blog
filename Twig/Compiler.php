@@ -34,7 +34,7 @@ class Twig_Compiler implements Twig_CompilerInterface
     public function __construct(Twig_Environment $env)
     {
         $this->env = $env;
-        $this->debugInfo = array();
+        $this->debugInfo = [];
     }
 
     public function getFilename()
@@ -74,7 +74,7 @@ class Twig_Compiler implements Twig_CompilerInterface
     {
         $this->lastLine = null;
         $this->source = '';
-        $this->debugInfo = array();
+        $this->debugInfo = [];
         $this->sourceOffset = 0;
         // source code starts at 1 (as we then increment it when we encounter new lines)
         $this->sourceLine = 1;
@@ -237,7 +237,7 @@ class Twig_Compiler implements Twig_CompilerInterface
     /**
      * Indents the generated code.
      *
-     * @param int     $step The number of indentation to add
+     * @param int $step The number of indentation to add
      *
      * @return Twig_Compiler The current compiler instance
      */
@@ -251,11 +251,11 @@ class Twig_Compiler implements Twig_CompilerInterface
     /**
      * Outdents the generated code.
      *
-     * @param int     $step The number of indentation to remove
-     *
-     * @return Twig_Compiler The current compiler instance
+     * @param int $step The number of indentation to remove
      *
      * @throws LogicException When trying to outdent too much so the indentation would become negative
+     *
+     * @return Twig_Compiler The current compiler instance
      */
     public function outdent($step = 1)
     {

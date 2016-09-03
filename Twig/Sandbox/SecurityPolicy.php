@@ -22,7 +22,7 @@ class Twig_Sandbox_SecurityPolicy implements Twig_Sandbox_SecurityPolicyInterfac
     protected $allowedProperties;
     protected $allowedFunctions;
 
-    public function __construct(array $allowedTags = array(), array $allowedFilters = array(), array $allowedMethods = array(), array $allowedProperties = array(), array $allowedFunctions = array())
+    public function __construct(array $allowedTags = [], array $allowedFilters = [], array $allowedMethods = [], array $allowedProperties = [], array $allowedFunctions = [])
     {
         $this->allowedTags = $allowedTags;
         $this->allowedFilters = $allowedFilters;
@@ -43,9 +43,9 @@ class Twig_Sandbox_SecurityPolicy implements Twig_Sandbox_SecurityPolicyInterfac
 
     public function setAllowedMethods(array $methods)
     {
-        $this->allowedMethods = array();
+        $this->allowedMethods = [];
         foreach ($methods as $class => $m) {
-            $this->allowedMethods[$class] = array_map('strtolower', is_array($m) ? $m : array($m));
+            $this->allowedMethods[$class] = array_map('strtolower', is_array($m) ? $m : [$m]);
         }
     }
 
@@ -106,7 +106,7 @@ class Twig_Sandbox_SecurityPolicy implements Twig_Sandbox_SecurityPolicyInterfac
         $allowed = false;
         foreach ($this->allowedProperties as $class => $properties) {
             if ($obj instanceof $class) {
-                $allowed = in_array($property, is_array($properties) ? $properties : array($properties));
+                $allowed = in_array($property, is_array($properties) ? $properties : [$properties]);
 
                 break;
             }

@@ -28,7 +28,7 @@ abstract class Twig_Extension implements Twig_ExtensionInterface
      */
     public function getTokenParsers()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class Twig_Extension implements Twig_ExtensionInterface
      */
     public function getNodeVisitors()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class Twig_Extension implements Twig_ExtensionInterface
      */
     public function getFilters()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class Twig_Extension implements Twig_ExtensionInterface
      */
     public function getTests()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -68,7 +68,7 @@ abstract class Twig_Extension implements Twig_ExtensionInterface
      */
     public function getFunctions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class Twig_Extension implements Twig_ExtensionInterface
      */
     public function getOperators()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -88,6 +88,6 @@ abstract class Twig_Extension implements Twig_ExtensionInterface
      */
     public function getGlobals()
     {
-        return array();
+        return [];
     }
 }

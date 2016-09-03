@@ -18,7 +18,7 @@ class Twig_Node_Do extends Twig_Node
 {
     public function __construct(Twig_Node_Expression $expr, $lineno, $tag = null)
     {
-        parent::__construct(array('expr' => $expr), array(), $lineno, $tag);
+        parent::__construct(['expr' => $expr], [], $lineno, $tag);
     }
 
     /**
@@ -32,7 +32,6 @@ class Twig_Node_Do extends Twig_Node
             ->addDebugInfo($this)
             ->write('')
             ->subcompile($this->getNode('expr'))
-            ->raw(";\n")
-        ;
+            ->raw(";\n");
     }
 }

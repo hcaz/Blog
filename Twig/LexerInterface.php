@@ -24,9 +24,9 @@ interface Twig_LexerInterface
      * @param string $code     The source code
      * @param string $filename A unique identifier for the source code
      *
-     * @return Twig_TokenStream A token stream instance
-     *
      * @throws Twig_Error_Syntax When the code is syntactically wrong
+     *
+     * @return Twig_TokenStream A token stream instance
      */
     public function tokenize($code, $filename = null);
 }

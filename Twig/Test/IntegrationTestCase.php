@@ -10,7 +10,7 @@
  */
 
 /**
- * Integration test helper
+ * Integration test helper.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Karma Dordrak <drak@zikula.org>
@@ -18,6 +18,7 @@
 abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
 {
     abstract protected function getExtensions();
+
     abstract protected function getFixturesDir();
 
     /**
@@ -31,7 +32,7 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
     public function getTests()
     {
         $fixturesDir = realpath($this->getFixturesDir());
-        $tests = array();
+        $tests = [];
 
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($fixturesDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
             if (!preg_match('/\.test$/', $file)) {
@@ -46,7 +47,7 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
                 $condition = $match[2];
                 $templates = $this->parseTemplates($match[3]);
                 $exception = $match[5];
-                $outputs = array(array(null, $match[4], null, ''));
+                $outputs = [[null, $match[4], null, '']];
             } elseif (preg_match('/--TEST--\s*(.*?)\s*(?:--CONDITION--\s*(.*))?\s*((?:--TEMPLATE(?:\(.*?\))?--(?:.*?))+)--DATA--.*?--EXPECT--.*/s', $test, $match)) {
                 $message = $match[1];
                 $condition = $match[2];
@@ -57,7 +58,7 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
                 throw new InvalidArgumentException(sprintf('Test "%s" is not valid.', str_replace($fixturesDir.'/', '', $file)));
             }
 
-            $tests[] = array(str_replace($fixturesDir.'/', '', $file), $message, $condition, $templates, $exception, $outputs);
+            $tests[] = [str_replace($fixturesDir.'/', '', $file), $message, $condition, $templates, $exception, $outputs];
         }
 
         return $tests;
@@ -75,10 +76,10 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
         $loader = new Twig_Loader_Array($templates);
 
         foreach ($outputs as $match) {
-            $config = array_merge(array(
-                'cache' => false,
+            $config = array_merge([
+                'cache'            => false,
                 'strict_variables' => true,
-            ), $match[2] ? eval($match[2].';') : array());
+            ], $match[2] ? eval($match[2].';') : []);
             $twig = new Twig_Environment($loader, $config);
             $twig->addGlobal('global', 'global');
             foreach ($this->getExtensions() as $extension) {
@@ -122,8 +123,8 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
 
             if (false !== $exception) {
-                list($class, ) = explode(':', $exception);
-                $this->assertThat(NULL, new PHPUnit_Framework_Constraint_Exception($class));
+                list($class) = explode(':', $exception);
+                $this->assertThat(null, new PHPUnit_Framework_Constraint_Exception($class));
             }
 
             $expected = trim($match[3], "\n ");
@@ -143,7 +144,7 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     protected static function parseTemplates($test)
     {
-        $templates = array();
+        $templates = [];
         preg_match_all('/--TEMPLATE(?:\((.*?)\))?--(.*?)(?=\-\-TEMPLATE|$)/s', $test, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             $templates[($match[1] ? $match[1] : 'index.twig')] = $match[2];

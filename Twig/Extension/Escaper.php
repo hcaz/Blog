@@ -24,7 +24,7 @@ class Twig_Extension_Escaper extends Twig_Extension
      */
     public function getTokenParsers()
     {
-        return array(new Twig_TokenParser_AutoEscape());
+        return [new Twig_TokenParser_AutoEscape()];
     }
 
     /**
@@ -34,7 +34,7 @@ class Twig_Extension_Escaper extends Twig_Extension
      */
     public function getNodeVisitors()
     {
-        return array(new Twig_NodeVisitor_Escaper());
+        return [new Twig_NodeVisitor_Escaper()];
     }
 
     /**
@@ -44,9 +44,9 @@ class Twig_Extension_Escaper extends Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new Twig_SimpleFilter('raw', 'twig_raw_filter', array('is_safe' => array('all'))),
-        );
+        return [
+            new Twig_SimpleFilter('raw', 'twig_raw_filter', ['is_safe' => ['all']]),
+        ];
     }
 
     /**

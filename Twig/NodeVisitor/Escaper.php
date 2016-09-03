@@ -16,12 +16,12 @@
  */
 class Twig_NodeVisitor_Escaper implements Twig_NodeVisitorInterface
 {
-    protected $statusStack = array();
-    protected $blocks = array();
+    protected $statusStack = [];
+    protected $blocks = [];
     protected $safeAnalysis;
     protected $traverser;
     protected $defaultStrategy = false;
-    protected $safeVars = array();
+    protected $safeVars = [];
 
     public function __construct()
     {
@@ -42,7 +42,7 @@ class Twig_NodeVisitor_Escaper implements Twig_NodeVisitorInterface
             if ($env->hasExtension('escaper') && $defaultStrategy = $env->getExtension('escaper')->getDefaultStrategy($node->getAttribute('filename'))) {
                 $this->defaultStrategy = $defaultStrategy;
             }
-            $this->safeVars = array();
+            $this->safeVars = [];
         } elseif ($node instanceof Twig_Node_AutoEscape) {
             $this->statusStack[] = $node->getAttribute('value');
         } elseif ($node instanceof Twig_Node_Block) {
@@ -66,7 +66,7 @@ class Twig_NodeVisitor_Escaper implements Twig_NodeVisitorInterface
     {
         if ($node instanceof Twig_Node_Module) {
             $this->defaultStrategy = false;
-            $this->safeVars = array();
+            $this->safeVars = [];
         } elseif ($node instanceof Twig_Node_Expression_Filter) {
             return $this->preEscapeFilterNode($node, $env);
         } elseif ($node instanceof Twig_Node_Print) {
@@ -127,7 +127,7 @@ class Twig_NodeVisitor_Escaper implements Twig_NodeVisitorInterface
 
         if (null === $safe) {
             if (null === $this->traverser) {
-                $this->traverser = new Twig_NodeTraverser($env, array($this->safeAnalysis));
+                $this->traverser = new Twig_NodeTraverser($env, [$this->safeAnalysis]);
             }
 
             $this->safeAnalysis->setSafeVars($this->safeVars);
@@ -152,7 +152,7 @@ class Twig_NodeVisitor_Escaper implements Twig_NodeVisitorInterface
     {
         $line = $node->getLine();
         $name = new Twig_Node_Expression_Constant('escape', $line);
-        $args = new Twig_Node(array(new Twig_Node_Expression_Constant((string) $type, $line), new Twig_Node_Expression_Constant(null, $line), new Twig_Node_Expression_Constant(true, $line)));
+        $args = new Twig_Node([new Twig_Node_Expression_Constant((string) $type, $line), new Twig_Node_Expression_Constant(null, $line), new Twig_Node_Expression_Constant(true, $line)]);
 
         return new Twig_Node_Expression_Filter($node, $name, $args, $line);
     }

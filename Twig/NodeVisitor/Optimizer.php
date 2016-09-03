@@ -21,22 +21,22 @@
  */
 class Twig_NodeVisitor_Optimizer implements Twig_NodeVisitorInterface
 {
-    const OPTIMIZE_ALL         = -1;
-    const OPTIMIZE_NONE        = 0;
-    const OPTIMIZE_FOR         = 2;
-    const OPTIMIZE_RAW_FILTER  = 4;
-    const OPTIMIZE_VAR_ACCESS  = 8;
+    const OPTIMIZE_ALL = -1;
+    const OPTIMIZE_NONE = 0;
+    const OPTIMIZE_FOR = 2;
+    const OPTIMIZE_RAW_FILTER = 4;
+    const OPTIMIZE_VAR_ACCESS = 8;
 
-    protected $loops = array();
-    protected $loopsTargets = array();
+    protected $loops = [];
+    protected $loopsTargets = [];
     protected $optimizers;
-    protected $prependedNodes = array();
+    protected $prependedNodes = [];
     protected $inABody = false;
 
     /**
      * Constructor.
      *
-     * @param int     $optimizers The optimizer mode
+     * @param int $optimizers The optimizer mode
      */
     public function __construct($optimizers = -1)
     {
@@ -60,7 +60,7 @@ class Twig_NodeVisitor_Optimizer implements Twig_NodeVisitorInterface
             if ($this->inABody) {
                 if (!$node instanceof Twig_Node_Expression) {
                     if (get_class($node) !== 'Twig_Node') {
-                        array_unshift($this->prependedNodes, array());
+                        array_unshift($this->prependedNodes, []);
                     }
                 } else {
                     $node = $this->optimizeVariables($node, $env);
@@ -95,7 +95,7 @@ class Twig_NodeVisitor_Optimizer implements Twig_NodeVisitorInterface
                 $this->inABody = false;
             } elseif ($this->inABody) {
                 if (!$expression && get_class($node) !== 'Twig_Node' && $prependedNodes = array_shift($this->prependedNodes)) {
-                    $nodes = array();
+                    $nodes = [];
                     foreach (array_unique($prependedNodes) as $name) {
                         $nodes[] = new Twig_Node_SetTemp($name, $node->getLine());
                     }

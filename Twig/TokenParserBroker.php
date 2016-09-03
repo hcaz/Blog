@@ -14,13 +14,14 @@
  * Default implementation of a token parser broker.
  *
  * @author Arnaud Le Blanc <arnaud.lb@gmail.com>
+ *
  * @deprecated since 1.12 (to be removed in 2.0)
  */
 class Twig_TokenParserBroker implements Twig_TokenParserBrokerInterface
 {
     protected $parser;
-    protected $parsers = array();
-    protected $brokers = array();
+    protected $parsers = [];
+    protected $brokers = [];
 
     /**
      * Constructor.
@@ -28,7 +29,7 @@ class Twig_TokenParserBroker implements Twig_TokenParserBrokerInterface
      * @param array|Traversable $parsers A Traversable of Twig_TokenParserInterface instances
      * @param array|Traversable $brokers A Traversable of Twig_TokenParserBrokerInterface instances
      */
-    public function __construct($parsers = array(), $brokers = array())
+    public function __construct($parsers = [], $brokers = [])
     {
         foreach ($parsers as $parser) {
             if (!$parser instanceof Twig_TokenParserInterface) {

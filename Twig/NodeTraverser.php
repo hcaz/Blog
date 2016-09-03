@@ -27,10 +27,10 @@ class Twig_NodeTraverser
      * @param Twig_Environment            $env      A Twig_Environment instance
      * @param Twig_NodeVisitorInterface[] $visitors An array of Twig_NodeVisitorInterface instances
      */
-    public function __construct(Twig_Environment $env, array $visitors = array())
+    public function __construct(Twig_Environment $env, array $visitors = [])
     {
         $this->env = $env;
-        $this->visitors = array();
+        $this->visitors = [];
         foreach ($visitors as $visitor) {
             $this->addVisitor($visitor);
         }
@@ -44,7 +44,7 @@ class Twig_NodeTraverser
     public function addVisitor(Twig_NodeVisitorInterface $visitor)
     {
         if (!isset($this->visitors[$visitor->getPriority()])) {
-            $this->visitors[$visitor->getPriority()] = array();
+            $this->visitors[$visitor->getPriority()] = [];
         }
 
         $this->visitors[$visitor->getPriority()][] = $visitor;

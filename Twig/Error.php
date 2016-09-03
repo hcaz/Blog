@@ -111,7 +111,7 @@ class Twig_Error extends Exception
     /**
      * Gets the template line where the error occurred.
      *
-     * @return int     The template line
+     * @return int The template line
      */
     public function getTemplateLine()
     {
@@ -121,7 +121,7 @@ class Twig_Error extends Exception
     /**
      * Sets the template line where the error occurred.
      *
-     * @param int     $lineno The template line
+     * @param int $lineno The template line
      */
     public function setTemplateLine($lineno)
     {
@@ -142,9 +142,9 @@ class Twig_Error extends Exception
      * @param string $method    The method name
      * @param array  $arguments The parameters to be passed to the method
      *
-     * @return Exception The previous exception or null
-     *
      * @throws BadMethodCallException
+     *
+     * @return Exception The previous exception or null
      */
     public function __call($method, $arguments)
     {
@@ -222,14 +222,14 @@ class Twig_Error extends Exception
             $file = '';
         }
 
-        $exceptions = array($e = $this);
+        $exceptions = [$e = $this];
         while (($e instanceof self || method_exists($e, 'getPrevious')) && $e = $e->getPrevious()) {
             $exceptions[] = $e;
         }
 
         while ($e = array_pop($exceptions)) {
             $traces = $e->getTrace();
-            array_unshift($traces, array('file' => $e->getFile(), 'line' => $e->getLine()));
+            array_unshift($traces, ['file' => $e->getFile(), 'line' => $e->getLine()]);
 
             while ($trace = array_shift($traces)) {
                 if (!isset($trace['file']) || !isset($trace['line']) || $file != $trace['file']) {

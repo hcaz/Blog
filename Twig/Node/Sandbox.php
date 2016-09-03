@@ -18,7 +18,7 @@ class Twig_Node_Sandbox extends Twig_Node
 {
     public function __construct(Twig_NodeInterface $body, $lineno, $tag = null)
     {
-        parent::__construct(array('body' => $body), array(), $lineno, $tag);
+        parent::__construct(['body' => $body], [], $lineno, $tag);
     }
 
     /**
@@ -41,7 +41,6 @@ class Twig_Node_Sandbox extends Twig_Node
             ->indent()
             ->write("\$sandbox->disableSandbox();\n")
             ->outdent()
-            ->write("}\n")
-        ;
+            ->write("}\n");
     }
 }
